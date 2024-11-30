@@ -32,13 +32,13 @@ function Selector({}: Props) {
       </div> 
 
       {showStyle &&
-          <>
-          <h1 className={`animate-opacity ${showStyle ? "balls":""}`}>Choose a style</h1>
-          <div className="options">
-            <button className={"btn " + (style===1 ? "selected":"")} onClick={e => handleStyleClick(e, 1)}>Realistic</button>
-            <button className={"btn " + (style===2 ? "selected":"")} onClick={e => handleStyleClick(e, 2)}>Anime</button>
+          <div className={showStyle ? "fade-in":""}>
+            <h1>Choose a style</h1>
+            <div className="options">
+              <button className={"btn " + (style===1 ? "selected":"")} onClick={e => handleStyleClick(e, 1)}>Realistic</button>
+              <button className={"btn " + (style===2 ? "selected":"")} onClick={e => handleStyleClick(e, 2)}>Anime</button>
+            </div>
           </div>
-          </>
         }
 
       {showGen &&
