@@ -3,26 +3,10 @@ import random
 import sys
 from typing import Sequence, Mapping, Any, Union
 import torch
+from nodes import NODE_CLASS_MAPPINGS
 
 
 def get_value_at_index(obj: Union[Sequence, Mapping], index: int) -> Any:
-    """Returns the value at the given index of a sequence or mapping.
-
-    If the object is a sequence (like list or string), returns the value at the given index.
-    If the object is a mapping (like a dictionary), returns the value at the index-th key.
-
-    Some return a dictionary, in these cases, we look for the "results" key
-
-    Args:
-        obj (Union[Sequence, Mapping]): The object to retrieve the value from.
-        index (int): The index of the value to retrieve.
-
-    Returns:
-        Any: The value at the given index.
-
-    Raises:
-        IndexError: If the index is out of bounds for the object and the object is not a mapping.
-    """
     try:
         return obj[index]
     except KeyError:
@@ -30,35 +14,19 @@ def get_value_at_index(obj: Union[Sequence, Mapping], index: int) -> Any:
 
 
 def find_path(name: str, path: str = None) -> str:
-    """
-    Recursively looks at parent folders starting from the given path until it finds the given name.
-    Returns the path as a Path object if found, or None otherwise.
-    """
-    # If no path is given, use the current working directory
     if path is None:
         path = os.getcwd()
-
-    # Check if the current directory contains the name
     if name in os.listdir(path):
         path_name = os.path.join(path, name)
         print(f"{name} found: {path_name}")
         return path_name
-
-    # Get the parent directory
     parent_directory = os.path.dirname(path)
-
-    # If the parent directory is the same as the current directory, we've reached the root and stop the search
     if parent_directory == path:
         return None
-
-    # Recursively call the function with the parent directory
     return find_path(name, parent_directory)
 
 
 def add_comfyui_directory_to_sys_path() -> None:
-    """
-    Add 'ComfyUI' to the sys.path
-    """
     comfyui_path = find_path("ComfyUI")
     if comfyui_path is not None and os.path.isdir(comfyui_path):
         sys.path.append(comfyui_path)
@@ -66,15 +34,10 @@ def add_comfyui_directory_to_sys_path() -> None:
 
 
 def add_extra_model_paths() -> None:
-    """
-    Parse the optional extra_model_paths.yaml file and add the parsed paths to the sys.path.
-    """
     try:
         from main import load_extra_path_config
     except ImportError:
-        print(
-            "Could not import load_extra_path_config from main.py. Looking in utils.extra_config instead."
-        )
+        print("Could not import load_extra_path_config from main.py. Looking in utils.extra_config instead.")
         from utils.extra_config import load_extra_path_config
 
     extra_model_paths = find_path("extra_model_paths.yaml")
@@ -90,71 +53,65 @@ add_extra_model_paths()
 
 
 def import_custom_nodes() -> None:
-    """Find all custom nodes in the custom_nodes folder and add those node objects to NODE_CLASS_MAPPINGS
-
-    This function sets up a new asyncio event loop, initializes the PromptServer,
-    creates a PromptQueue, and initializes the custom nodes.
-    """
     import asyncio
     import execution
     from nodes import init_custom_nodes
     import server
 
-    # Creating a new event loop and setting it as the default loop
     loop = asyncio.new_event_loop()
     asyncio.set_event_loop(loop)
 
-    # Creating an instance of PromptServer with the loop
     server_instance = server.PromptServer(loop)
     execution.PromptQueue(server_instance)
 
-    # Initializing custom nodes
     init_custom_nodes()
 
 
-from nodes import NODE_CLASS_MAPPINGS
-
-
-def main():
-    import_custom_nodes()
+def loader(ckpt_name="CounterfeitV30_v30.safetensors", vae_name="vae-ft-mse-840000-ema-pruned.ckpt"):
     with torch.inference_mode():
         checkpointloadersimple = NODE_CLASS_MAPPINGS["CheckpointLoaderSimple"]()
-        checkpointloadersimple_4 = checkpointloadersimple.load_checkpoint(
-            ckpt_name="CounterfeitV30_v30.safetensors"
-        )
+        ckpt_loader = checkpointloadersimple.load_checkpoint(ckpt_name=ckpt_name)
+
+        vaeloader = NODE_CLASS_MAPPINGS["VAELoader"]()
+        vae_loader = vaeloader.load_vae(vae_name=vae_name)
+
+        lineart_prep = NODE_CLASS_MAPPINGS["LineArtPreprocessor"]()
+
+        return ckpt_loader, vae_loader, lineart_prep
+
+
+def infer(ckpt_loader, vae_loader, lineart_prep, prompt="best quality, simple, girl, headshot", negative="worst quality, text, watermark, signature", dims=(512, 768), seed=random.randint(1, 2**64), steps=20, cfg=8, sampler="euler"):
+    with torch.inference_mode():
 
         emptylatentimage = NODE_CLASS_MAPPINGS["EmptyLatentImage"]()
         emptylatentimage_5 = emptylatentimage.generate(
-            width=512, height=768, batch_size=1
+            width=dims[0], height=dims[1], batch_size=1
         )
 
         cliptextencode = NODE_CLASS_MAPPINGS["CLIPTextEncode"]()
         cliptextencode_6 = cliptextencode.encode(
-            text="best quality, simple, girl, headshot",
-            clip=get_value_at_index(checkpointloadersimple_4, 1),
+            text=prompt,
+            clip=get_value_at_index(ckpt_loader, 1),
         )
 
         cliptextencode_7 = cliptextencode.encode(
-            text="worst quality, text, watermark, signature",
-            clip=get_value_at_index(checkpointloadersimple_4, 1),
+            text=negative,
+            clip=get_value_at_index(ckpt_loader, 1),
         )
 
-        vaeloader = NODE_CLASS_MAPPINGS["VAELoader"]()
-        vaeloader_10 = vaeloader.load_vae(vae_name="vae-ft-mse-840000-ema-pruned.ckpt")
 
         ksampler = NODE_CLASS_MAPPINGS["KSampler"]()
         vaedecode = NODE_CLASS_MAPPINGS["VAEDecode"]()
         saveimage = NODE_CLASS_MAPPINGS["SaveImage"]()
-        lineartpreprocessor = NODE_CLASS_MAPPINGS["LineArtPreprocessor"]()
 
         ksampler_3 = ksampler.sample(
-            seed=random.randint(1, 2**64),
-            steps=20,
-            cfg=8,
-            sampler_name="euler",
+            seed=seed,
+            steps=steps,
+            cfg=cfg,
+            sampler_name=sampler,
             scheduler="normal",
             denoise=1,
-            model=get_value_at_index(checkpointloadersimple_4, 0),
+            model=get_value_at_index(ckpt_loader, 0),
             positive=get_value_at_index(cliptextencode_6, 0),
             negative=get_value_at_index(cliptextencode_7, 0),
             latent_image=get_value_at_index(emptylatentimage_5, 0),
@@ -162,14 +119,14 @@ def main():
 
         vaedecode_8 = vaedecode.decode(
             samples=get_value_at_index(ksampler_3, 0),
-            vae=get_value_at_index(vaeloader_10, 0),
+            vae=get_value_at_index(vae_loader, 0),
         )
 
         saveimage_9 = saveimage.save_images(
             filename_prefix="ComfyUI", images=get_value_at_index(vaedecode_8, 0)
         )
 
-        lineartpreprocessor_13 = lineartpreprocessor.execute(
+        lineartpreprocessor_13 = lineart_prep.execute(
             coarse="disable",
             resolution=512,
             image=get_value_at_index(vaedecode_8, 0),
@@ -177,4 +134,6 @@ def main():
 
 
 if __name__ == "__main__":
-    main()
+    import_custom_nodes()
+    ckpt_loader, vae_loader, lineart_prep = loader()
+    infer(ckpt_loader, vae_loader, lineart_prep)
