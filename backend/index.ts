@@ -9,12 +9,22 @@ app.use(cors());
 app.use(express.json());
 
 app.get("/api/generate/:typeParam", async (req, res) => {
-    const url = `http://129.100.196.65:6969/generate?type=${req.params.typeParam}`
+    const url = `http://129.100.196.65:6969/generate?style=${req.params.typeParam}`
     console.log('sending get req')
     const balls = await axios.get(url, { responseType: 'stream' })
     console.log("done")
     res.setHeader("Content-Type", "image/png")
     balls.data.pipe(res)
+});
+
+app.get("/api/lineart/:typeParam", async (req, res) => {
+    const url = `http://129.100.196.65:6969/generate?style=${req.params.typeParam}`
+    const lineartUrl = `http://129.100.196.65:6969/lineart`
+    await axios.get(url)
+    const lineartBlob = await axios.get(lineartUrl, { responseType: 'stream'})
+    console.log("done")
+    res.setHeader("Content-Type", "image/png")
+    lineartBlob.data.pipe(res)
 });
 
 app.listen(PORT, () => {

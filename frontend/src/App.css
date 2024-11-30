@@ -55,7 +55,7 @@ body{
   width: 200px;
   padding: 50px;
   cursor: pointer;
-  background-color: black;
+  background-color: #1f1f1f;
   color:white;
   border: 2px solid #a3a3a3;
   font-size: 18px;
@@ -75,10 +75,12 @@ body{
   margin-top: 64px;
   padding: 15px 30px;
   font-size: 18px;
-  background-color: #4CAF50;
+  background-color: #3c9c3e;
   color: white;
   border: none;
   cursor: pointer;
+  border-radius: 8px;
+  border: 1px solid white;
 }
 
 .fade-in {

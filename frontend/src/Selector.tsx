@@ -13,7 +13,8 @@ function Selector({}: Props) {
   const [showStyle, setShowStyle] = useState(false)
   const [showGen, setShowGen] = useState(false)
   const [showImage, setShowImage] = useState(false)
-  const [imgSrc, setImcSrc] = useState<any>(null);
+  const [imgSrc, setImcSrc] = useState<any>(null)
+  const [loading, setLoading] = useState(false)
 
   const handleScrollToSection = (id: string) => {
     setTimeout(() => {
@@ -36,6 +37,7 @@ function Selector({}: Props) {
   }
 
   const handleFetchImage = async () => {
+    setLoading(true)
     const imgsrc = await apiService.getImage();
     setImcSrc(imgsrc)
     setShowImage(true)
@@ -61,9 +63,9 @@ function Selector({}: Props) {
             <button className={"btn " + (style===1 ? "selected":"")} onClick={e => handleStyleClick(e, 1)}>Realistic</button>
             <button className={"btn " + (style===2 ? "selected":"")} onClick={e => handleStyleClick(e, 2)}>Anime</button>
           </div>
-
+          
           {showGen && !showImage &&
-            <button style={{marginTop:100, marginBottom:100}} className="generate-btn" onClick={() => handleFetchImage()}>Generate</button>
+            <button style={{marginTop:100, marginBottom:100}} className="generate-btn" onClick={() => handleFetchImage()}>{!loading ? "Generate" : "..."}</button>
           }
 
           {showImage &&
