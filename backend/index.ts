@@ -8,8 +8,8 @@ const PORT = 3000;
 app.use(cors());
 app.use(express.json());
 
-app.get("/api/generate", async (req, res) => {
-    const url = "http://129.100.196.65:6969/generate"
+app.get("/api/generate/:typeParam", async (req, res) => {
+    const url = `http://129.100.196.65:6969/generate?type=${req.params.typeParam}`
     console.log('sending get req')
     const balls = await axios.get(url, { responseType: 'stream' })
     console.log("done")
