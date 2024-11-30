@@ -1,6 +1,6 @@
 import axios from 'axios'
-const baseUrl = "http://localhost:3000/api/generate/"
-const baseUrlLineart = "http://localhost:3000/api/lineart/"
+const baseUrl = "http://localhost:3001/api/generate/"
+const baseUrlLineart = "http://localhost:3001/api/lineart/"
 
 const getImage = async (style: string) => {
     console.log('sent req')

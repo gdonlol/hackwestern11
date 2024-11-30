@@ -71,6 +71,11 @@ body{
   border-color: #a8d8d2;
 }
 
+.login-logout-btn {
+  position: absolute;
+  right: 32px;
+}
+
 .generate-btn {
   margin-top: 64px;
   padding: 15px 30px;
@@ -270,4 +275,62 @@ body{
   bottom: 0;
   position:fixed;
   background: linear-gradient(180deg, rgba(0,0,0,0) 0%, rgba(102, 133, 139, 0.171) 100%);
+}
+
+.auth-controls {
+  display: flex;
+  align-items: center;
+  gap: 15px; /* Space between elements */
+}
+
+.auth-controls .btn {
+  background: none;
+  color: white;
+  border: 1px solid white;
+  padding: 5px 10px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  border-radius: 5px;
+}
+
+.auth-controls .btn:hover {
+  background-color: white;
+  color: black;
+}
+
+.authenticated {
+  position: absolute;
+  right: 32px;
+}
+
+.authenticated .logo {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+.dropdown {
+  position: absolute;
+  top: 50px;
+  right: 0;
+  background-color: white;
+  color: black;
+  border: 1px solid black;
+  border-radius: 5px;
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.dropdown .btn {
+  background: none;
+  color: black;
+  border: none;
+  cursor: pointer;
+}
+
+.dropdown .btn:hover {
+  background-color: lightgray;
 }
