@@ -81,6 +81,7 @@ class Generator:
         with torch.inference_mode():
             checkpointloadersimple = NODE_CLASS_MAPPINGS["CheckpointLoaderSimple"]()
             self.ckpt_loader = checkpointloadersimple.load_checkpoint(ckpt_name=ckpt_name)
+            self.ckpt_name = ckpt_name
 
             vaeloader = NODE_CLASS_MAPPINGS["VAELoader"]()
             self.vae_loader = vaeloader.load_vae(vae_name=vae_name)
@@ -88,9 +89,14 @@ class Generator:
             self.lineart_prep = NODE_CLASS_MAPPINGS["LineArtPreprocessor"]()
 
 
-    def __call__(self, prompt="best quality, simple, girl, headshot", negative="worst quality, text, watermark, signature", dims=(512, 768), seed=None, steps=20, cfg=8, sampler="euler"):
+    def __call__(self, prompt="best quality, simple, girl, headshot", negative="worst quality, text, watermark, signature, nsfw", dims=(512, 768), seed=None, steps=20, cfg=8, sampler="euler", ckpt=None):
+
         if not seed:
             seed = random.randint(1, 2**64)
+
+        if ckpt:
+            self.set_ckpt(ckpt)
+
         with torch.inference_mode():
 
             emptylatentimage = NODE_CLASS_MAPPINGS["EmptyLatentImage"]()
@@ -139,8 +145,18 @@ class Generator:
                 image=get_value_at_index(vaedecode_8, 0),
             )
 
+            save_image(get_value_at_index(lineartpreprocessor_13, 0)[0], "images/lineart.png")
+
+
+    def set_ckpt(self, ckpt_name="CounterfeitV30_v30.safetensors"):
+        with torch.inference_mode():
+            if self.ckpt_name != ckpt_name:
+                checkpointloadersimple = NODE_CLASS_MAPPINGS["CheckpointLoaderSimple"]()
+                self.ckpt_loader = checkpointloadersimple.load_checkpoint(ckpt_name=ckpt_name)
+                self.ckpt_name = ckpt_name
+
 
 import_custom_nodes()
 if __name__ == "__main__":
-    gen = Generator()
+    gen = Generator(ckpt_name="CounterfeitV30_v30.safetensors")
     gen()
