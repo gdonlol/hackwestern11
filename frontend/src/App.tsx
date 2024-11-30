@@ -5,6 +5,8 @@ import Selector from './Selector.tsx'
 import Header from './Header.tsx'
 import Image from './Image.tsx'
 import "./App.css"
+import { Routes, Route } from "react-router-dom";
+import Stats from "./Stats.tsx";
 
 function App() {
   const [count, setCount] = useState(0)
@@ -12,7 +14,10 @@ function App() {
   return (
     <>
       <Header />
-      <Selector />
+      <Routes>
+        <Route path="/" element={<Selector />} />
+        <Route path="/results" element={<Stats />} />
+      </Routes>
     </>
   )
 }

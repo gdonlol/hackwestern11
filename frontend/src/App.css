@@ -135,3 +135,114 @@ body{
 .style-container{
   height: 450px;
 }
+
+.statistics-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+/* Art and Info Section */
+.art-and-info {
+  display: flex;
+  width: 100%;
+  gap: 20px;
+  align-items: flex-start;
+}
+
+/* Left Section: Stacked Squares */
+.art-section {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.art-box {
+  width: 150px;
+  height: 150px;
+  background-color: red;
+}
+
+/* Right Section: Circle, Text, XP Bar */
+.info-section {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 320px; /* Matches the combined height of the stacked squares */
+  flex: 1;
+  align-items: center;
+}
+
+.grade-circle {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 150px;
+  height: 150px;
+  background-color: #4caf50;
+  border-radius: 50%;
+  color: white;
+  font-size: 24px;
+  text-align: center;
+}
+
+.grade-circle h1 {
+  margin: 0;
+  font-size: 48px;
+}
+
+.grade-circle p {
+  margin: 0;
+  font-size: 16px;
+}
+
+.additional-text {
+  text-align: center;
+  color: #555;
+  font-size: 14px;
+  flex: 1; /* Fills the space between the circle and XP bar */
+}
+
+.xp-bar-container {
+  width: 80%;
+}
+
+.xp-bar {
+  width: 100%;
+  height: 20px;
+  background-color: #ddd;
+  border-radius: 10px;
+  overflow: hidden;
+  position: relative;
+}
+
+.xp-progress {
+  width: 50%; /* Adjust the width to show progress */
+  height: 100%;
+  background-color: #4caf50;
+}
+
+/* Bottom Section: Buttons */
+.action-buttons {
+  display: flex;
+  gap: 10px;
+}
+
+.action-buttons button {
+  padding: 10px 20px;
+  font-size: 14px;
+  border: none;
+  border-radius: 5px;
+  background-color: #007bff;
+  color: white;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.action-buttons button:hover {
+  background-color: #0056b3;
+}
