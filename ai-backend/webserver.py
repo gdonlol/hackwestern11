@@ -1,12 +1,17 @@
 from flask import Flask, send_file, request
+from genutils import Generator
+
+gen = Generator()
 
 app = Flask(__name__)
 
 @app.route("/generate", methods=["GET"])
 def send_image():
+    global gen
     #filename = request.args.get("filename", "default.jpg")
     try:
-        file_path = "output/ComfyUI_00016_.png"
+        gen()
+        file_path = "images/image.png"
         return send_file(file_path, mimetype="image/png")
     except Exception as e:
         return str(e), 404
