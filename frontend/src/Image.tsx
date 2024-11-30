@@ -1,9 +1,11 @@
 import React from "react";
 import { useState } from "react";
 
-type Props = {};
+type Props = {
+  src: any;
+};
 
-const Image: React.FC<Props> = () => {
+const Image: React.FC<Props> = ({src}: Props) => {
   const [uploadedImage, setUploadedImage] = useState<string | null>(null);
 
   const handleImageUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -27,23 +29,8 @@ const Image: React.FC<Props> = () => {
       <div style={{display: 'flex', flexDirection: 'column', alignItems: 'center', marginBottom: 64}}>
         <h1 className="title" style={{marginTop:64}}>Generated reference image</h1>
 
-        <div className="image-container" />
+        {src && <img src={src} style={{width: '512px'}}/>}
 
-        {uploadedImage && (
-          <div>
-            <h2>Uploaded Image</h2>
-            <img
-              src={uploadedImage}
-              alt="Uploaded"
-              style={{
-                width: "300px",
-                height: "300px",
-                objectFit: "cover",
-                borderRadius: "10px",
-              }}
-            />
-          </div>
-        )}
 
         <div className="upload-container">
           <input

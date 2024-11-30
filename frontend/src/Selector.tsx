@@ -2,6 +2,7 @@ import React from "react";
 import { useState } from "react";
 import "./App.css"
 import Image from "./Image";
+import apiService from "./services/apiService";
 
 type Props = {}
 
@@ -11,6 +12,7 @@ function Selector({}: Props) {
   const [showStyle, setShowStyle] = useState(false)
   const [showGen, setShowGen] = useState(false)
   const [showImage, setShowImage] = useState(false)
+  const [imgSrc, setImcSrc] = useState<any>(null);
 
   const handleCategoryClick = (e:any, x:number) => {
     setCategory(x)
@@ -20,6 +22,12 @@ function Selector({}: Props) {
   const handleStyleClick = (e:any, x:number) => {
     setStyle(x)
     setShowGen(true)
+  }
+
+  const handleFetchImage = async () => {
+    const imgsrc = await apiService.getImage();
+    setImcSrc(imgsrc)
+    setShowImage(true)
   }
 
   return (
@@ -42,11 +50,11 @@ function Selector({}: Props) {
           </div>
 
           {showGen && !showImage &&
-            <button style={{marginTop:100, marginBottom:100}} className="generate-btn" onClick={() => setShowImage(true)}>Generate</button>
+            <button style={{marginTop:100, marginBottom:100}} className="generate-btn" onClick={() => handleFetchImage()}>Generate</button>
           }
 
           {showImage &&
-            <Image />
+            <Image src={imgSrc}/>
           }
         </div>
       }
