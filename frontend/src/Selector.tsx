@@ -38,7 +38,9 @@ function Selector({}: Props) {
 
   const handleFetchImage = async () => {
     setLoading(true)
-    const imgsrc = await apiService.getImage();
+    const imgsrc = style === 1 ? 
+      await apiService.getImage(category === 1 ? 'still': category === 2 ? 'anime':'real'):
+      await apiService.getLineart(category === 1 ? 'still': category === 2 ? 'anime':'real')
     setImcSrc(imgsrc)
     setShowImage(true)
   }
@@ -50,9 +52,9 @@ function Selector({}: Props) {
         
         <h1>Choose a category</h1>
         <div className="options">
-          <button className={"btn " + (category===1 ? "selected":"")} onClick={e => handleCategoryClick(e, 1)}>Figure</button>
+          <button className={"btn " + (category===1 ? "selected":"")} onClick={e => handleCategoryClick(e, 1)}>Still Life</button>
           <button className={"btn " + (category===2 ? "selected":"")} onClick={e => handleCategoryClick(e, 2)}>Face</button>
-          <button className={"btn " + (category===3 ? "selected":"")} onClick={e => handleCategoryClick(e, 3)}>Still life</button>
+          <button className={"btn " + (category===3 ? "selected":"")} onClick={e => handleCategoryClick(e, 3)}>Model</button>
         </div>
       </div> 
       
@@ -60,8 +62,8 @@ function Selector({}: Props) {
         <div className={`style-container ${showStyle ? "fade-in":""}`}>
           <h1 id="section2" style={{marginTop:64}}>Choose a style</h1>
           <div className="options">
-            <button className={"btn " + (style===1 ? "selected":"")} onClick={e => handleStyleClick(e, 1)}>Realistic</button>
-            <button className={"btn " + (style===2 ? "selected":"")} onClick={e => handleStyleClick(e, 2)}>Anime</button>
+            <button className={"btn " + (style===1 ? "selected":"")} onClick={e => handleStyleClick(e, 1)}>Normal</button>
+            <button className={"btn " + (style===2 ? "selected":"")} onClick={e => handleStyleClick(e, 2)}>Lineart</button>
           </div>
           
           {showGen && !showImage &&
