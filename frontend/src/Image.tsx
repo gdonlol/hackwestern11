@@ -23,9 +23,9 @@ const Image: React.FC<Props> = () => {
   };
 
   return (
-    <div>
-      <div>
-        <h1 className="title">Image Generator</h1>
+    <>
+      <div style={{display: 'flex', flexDirection: 'column', alignItems: 'center', marginBottom: 64}}>
+        <h1 className="title" style={{marginTop:64}}>Generated reference image</h1>
 
         <div className="image-container" />
 
@@ -36,7 +36,7 @@ const Image: React.FC<Props> = () => {
               src={uploadedImage}
               alt="Uploaded"
               style={{
-                width: "100%",
+                width: "300px",
                 height: "300px",
                 objectFit: "cover",
                 borderRadius: "10px",
@@ -57,7 +57,7 @@ const Image: React.FC<Props> = () => {
           </button>
         </div>
       </div>
-    </div>
+    </>
   );
 };
 

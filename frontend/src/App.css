@@ -72,11 +72,13 @@ body{
 
 .fade-in {
   opacity: 0;
+  transform: translateY(20px);
   animation: fadeIn 1s forwards;
 }
 
 @keyframes fadeIn {
   to {
+    transform: translateY(0);
     opacity: 1;
   }
 }
@@ -101,8 +103,8 @@ body{
 }
 
 .image-container {
-  width: 100%;
-  height: 300px;
+  width: 30%;
+  aspect-ratio: 1/1;
   background-color: red;
   margin-bottom: 20px;
   border-radius: 10px;
@@ -128,4 +130,8 @@ body{
   border: none;
   border-radius: 5px;
   cursor: pointer;
+}
+
+.style-container{
+  height: 450px;
 }

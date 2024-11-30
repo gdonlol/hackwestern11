@@ -1,6 +1,7 @@
 import React from "react";
 import { useState } from "react";
 import "./App.css"
+import Image from "./Image";
 
 type Props = {}
 
@@ -9,6 +10,7 @@ function Selector({}: Props) {
   const [style, setStyle] = useState(0)
   const [showStyle, setShowStyle] = useState(false)
   const [showGen, setShowGen] = useState(false)
+  const [showImage, setShowImage] = useState(false)
 
   const handleCategoryClick = (e:any, x:number) => {
     setCategory(x)
@@ -32,19 +34,24 @@ function Selector({}: Props) {
       </div> 
 
       {showStyle &&
-          <div className={showStyle ? "fade-in":""}>
-            <h1>Choose a style</h1>
-            <div className="options">
-              <button className={"btn " + (style===1 ? "selected":"")} onClick={e => handleStyleClick(e, 1)}>Realistic</button>
-              <button className={"btn " + (style===2 ? "selected":"")} onClick={e => handleStyleClick(e, 2)}>Anime</button>
-            </div>
+        <div className={`style-container ${showStyle ? "fade-in":""}`}>
+          <h1 style={{marginTop:64}}>Choose a style</h1>
+          <div className="options">
+            <button className={"btn " + (style===1 ? "selected":"")} onClick={e => handleStyleClick(e, 1)}>Realistic</button>
+            <button className={"btn " + (style===2 ? "selected":"")} onClick={e => handleStyleClick(e, 2)}>Anime</button>
           </div>
-        }
 
-      {showGen &&
-        <button style={{marginTop:64, marginBottom:100}} className="generate-btn">Generate</button>
+          {showGen && !showImage &&
+            <button style={{marginTop:100, marginBottom:100}} className="generate-btn" onClick={() => setShowImage(true)}>Generate</button>
+          }
 
+          {showImage &&
+            <Image />
+          }
+        </div>
       }
+
+      
     </div>
   )
 }
