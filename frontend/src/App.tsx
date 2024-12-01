@@ -18,7 +18,7 @@ function App() {
     <>
       <Header />
       <Routes>
-        <Route path="/" element={<Selector setGenImage={setGenImage} setUpImage={setUpImage} />} />
+        <Route path="/" element={<Selector genImage={genImage} setGenImage={setGenImage} setUpImage={setUpImage} />} />
         <Route path="/results" element={<Stats upImage={upImage} genImage={genImage}/>}/>
       </Routes>
     </>

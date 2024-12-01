@@ -10,6 +10,7 @@ const getImage = async (style: string) => {
 }
 const getScore = async (imgJsons: any) => {
     const response = await axios.post(baseUrl + 'score', imgJsons)
+    console.log(response.data)
     return response.data
 }
 

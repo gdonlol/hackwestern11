@@ -9,9 +9,10 @@ type Props = {
   category: number;
   style: number;
   setImgSrc: any;
+  genImage: any;
 };
 
-const Image: React.FC<Props> = ({base64src, setUpImage, category, style, setImgSrc}: Props) => {
+const Image: React.FC<Props> = ({genImage, base64src, setUpImage, category, style, setImgSrc}: Props) => {
   const [uploadedImage, setUploadedImage] = useState<string | null>(null);
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
@@ -21,17 +22,16 @@ const Image: React.FC<Props> = ({base64src, setUpImage, category, style, setImgS
   
     if (file) {
       const reader = new FileReader();
-  
-      reader.onloadend = () => {
+      reader.onloadend = async () => {
         if (reader.result) {
-          const result = reader.result as string;
-          const base64String = result.split(',')[1]; // Remove metadata prefix
-          setUpImage(base64String); // Set the image state with raw Base64
-          navigate('/results');
+          const result = reader.result as string
+          const base64String = result.split(',')[1]
+          setUpImage(base64String)
+          await apiService.getScore({lineart: genImage.lineart, drawing: base64String})
+          navigate('/results')
         }
-      };
-  
-      reader.readAsDataURL(file); // Start reading the file as Base64
+      }
+      reader.readAsDataURL(file)
     }
   };
   

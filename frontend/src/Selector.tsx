@@ -5,11 +5,12 @@ import Image from "./Image";
 import apiService from "./services/apiService";
 
 type Props = {
+  genImage: any;
   setGenImage: any;
   setUpImage: any;
 }
 
-function Selector({setGenImage, setUpImage}: Props) {
+function Selector({genImage, setGenImage, setUpImage}: Props) {
   const [category, setCategory] = useState(0)
   const [style, setStyle] = useState(0)
   const [showStyle, setShowStyle] = useState(false)
@@ -72,7 +73,7 @@ function Selector({setGenImage, setUpImage}: Props) {
           }
 
           {showImage &&
-            <Image base64src={imgSrc} setUpImage={setUpImage} category={category} style={style} setImgSrc={setImgSrc}/>
+            <Image genImage={genImage} base64src={imgSrc} setUpImage={setUpImage} category={category} style={style} setImgSrc={setImgSrc}/>
           }
 
           
