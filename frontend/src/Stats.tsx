@@ -9,25 +9,21 @@ type Props = {
 };
 
 
-const Stats: React.FC<Props> = ({genImage, upImage }) => {
+const Stats: React.FC<Props> = ({genImage, upImage}) => {
   return (
     <div className="statistics-container">
       <div className="art-and-info">
         <div className="art-section">
-          <div className="image-container">
-            {upImage ? (
-              <img src={upImage} alt="Uploaded" className="image" />
-            ) : (
-              <p>No image uploaded</p>
-            )}
-          </div>
-          <div className="image-container">
-            {genImage ? (
-              <img src={genImage} alt="Generated" className="image" />
-            ) : (
-              <p>No generated image</p>
-            )}
-          </div>
+          {upImage ? (
+            <img src={upImage} style={{width:"80%"}} alt="Uploaded"/>
+          ) : (
+            <p>No image uploaded</p>
+          )}
+          {genImage ? (
+            <img src={genImage} style={{width:"80%"}} alt="Generated"/>
+          ) : (
+            <p>No generated image</p>
+          )}
         </div>
         <div className="info-section">
           <div className="grade-circle">

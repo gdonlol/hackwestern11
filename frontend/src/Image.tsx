@@ -1,5 +1,6 @@
 import React from "react";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 type Props = {
   src: any;
@@ -8,6 +9,7 @@ type Props = {
 
 const Image: React.FC<Props> = ({src, setUpImage}: Props) => {
   const [uploadedImage, setUploadedImage] = useState<string | null>(null);
+  const navigate = useNavigate();
 
   const handleImageUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
@@ -18,7 +20,8 @@ const Image: React.FC<Props> = ({src, setUpImage}: Props) => {
         setUploadedImage(reader.result as string);
       };
       reader.readAsDataURL(file);
-      setUpImage(file);
+      setUpImage(URL.createObjectURL(file));
+      navigate('/results');
     }
   };
 
