@@ -9,7 +9,7 @@ import { Routes, Route } from "react-router-dom";
 import Stats from "./Stats.tsx";
 
 function App() {
-  const [genImage, setGenImage] = useState("")
+  const [genImage, setGenImage] = useState(null)
   const [upImage, setUpImage] = useState("")
 
 

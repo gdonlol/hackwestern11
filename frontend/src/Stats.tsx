@@ -4,7 +4,7 @@ import "./App.css";
 
 
 type Props = {
-  genImage: string; 
+  genImage: any; 
   upImage: string;  
 };
 
@@ -20,7 +20,7 @@ const Stats: React.FC<Props> = ({genImage, upImage}) => {
             <p>No image uploaded</p>
           )}
           {genImage ? (
-            <img src={genImage} style={{width:"80%"}} alt="Generated"/>
+            <img src={`data:image/png;base64, ${genImage.original}`} style={{width:"80%"}} alt="Generated"/>
           ) : (
             <p>No generated image</p>
           )}

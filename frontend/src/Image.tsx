@@ -3,11 +3,11 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 type Props = {
-  src: any;
+  base64src: string;
   setUpImage: any;
 };
 
-const Image: React.FC<Props> = ({src, setUpImage}: Props) => {
+const Image: React.FC<Props> = ({base64src, setUpImage}: Props) => {
   const [uploadedImage, setUploadedImage] = useState<string | null>(null);
   const navigate = useNavigate();
 
@@ -34,9 +34,9 @@ const Image: React.FC<Props> = ({src, setUpImage}: Props) => {
       <div style={{display: 'flex', flexDirection: 'column', alignItems: 'center', marginBottom: 64}}>
         <h1 className="title" style={{marginTop:64}}>Generated reference image</h1>
 
-        {src && <img src={src} style={{width: '512px'}}/>}
+        <img src={`data:image/png;base64, ${base64src}`} style={{width: '512px'}}/>
 
-
+        
         <div className="upload-container">
           <input
             type="file"
