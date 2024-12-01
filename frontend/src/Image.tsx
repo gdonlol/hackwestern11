@@ -1,32 +1,46 @@
 import React from "react";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import apiService from "./services/apiService";
 
 type Props = {
   base64src: string;
   setUpImage: any;
+  category: number;
+  style: number;
+  setImgSrc: any;
 };
 
-const Image: React.FC<Props> = ({base64src, setUpImage}: Props) => {
+const Image: React.FC<Props> = ({base64src, setUpImage, category, style, setImgSrc}: Props) => {
   const [uploadedImage, setUploadedImage] = useState<string | null>(null);
   const navigate = useNavigate();
+  const [loading, setLoading] = useState(false);
 
   const handleImageUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const file = event.target.files?.[0];
-
+    const file = event.target.files?.[0]; // Get the selected file
+  
     if (file) {
       const reader = new FileReader();
+  
       reader.onloadend = () => {
-        setUploadedImage(reader.result as string);
+        if (reader.result) {
+          const result = reader.result as string;
+          const base64String = result.split(',')[1]; // Remove metadata prefix
+          setUpImage(base64String); // Set the image state with raw Base64
+          navigate('/results');
+        }
       };
-      reader.readAsDataURL(file);
-      setUpImage(URL.createObjectURL(file));
-      navigate('/results');
+  
+      reader.readAsDataURL(file); // Start reading the file as Base64
     }
   };
+  
 
-  const regenerateImage = () => {
-    console.log("Regenerate image");
+  const regenerateImage = async () => {
+    setLoading(true)
+    const rawJson = await apiService.getImage(category === 3 ? "still" : `${category === 2 ? "body" : "face"}${category === 1 ? "real" : "anime"}`)
+    setImgSrc(rawJson.balls.original)
+    setLoading(false)
   };
 
   return (
@@ -41,11 +55,11 @@ const Image: React.FC<Props> = ({base64src, setUpImage}: Props) => {
           <input
             type="file"
             accept="image/*"
-            onChange={handleImageUpload}
+            onChange={e => handleImageUpload(e)}
             className="file-input"
           />
-          <button onClick={regenerateImage} className="regenerate-button">
-            Regenerate
+          <button onClick={loading ? () => {}: () => regenerateImage()} className="regenerate-button">
+            {loading ? "Loading..." : "Regenerate"}
           </button>
         </div>
       </div>

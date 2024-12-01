@@ -15,7 +15,7 @@ const Stats: React.FC<Props> = ({genImage, upImage}) => {
       <div className="art-and-info">
         <div className="art-section">
           {upImage ? (
-            <img src={upImage} style={{width:"80%"}} alt="Uploaded"/>
+            <img src={`data:image/png;base64, ${upImage}`} style={{width:"80%"}} alt="Uploaded"/>
           ) : (
             <p>No image uploaded</p>
           )}

@@ -1,5 +1,5 @@
 import React from "react";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import "./App.css"
 import Image from "./Image";
 import apiService from "./services/apiService";
@@ -46,10 +46,6 @@ function Selector({setGenImage, setUpImage}: Props) {
     setShowImage(true)
   }
 
-  useEffect(() => {
-    console.log(imgSrc)
-  }, [imgSrc])
-
   return (
     <div>
       <div className="bottom-gradient" style={{pointerEvents:"none"}}></div>
@@ -76,7 +72,7 @@ function Selector({setGenImage, setUpImage}: Props) {
           }
 
           {showImage &&
-            <Image base64src={imgSrc} setUpImage={setUpImage}/>
+            <Image base64src={imgSrc} setUpImage={setUpImage} category={category} style={style} setImgSrc={setImgSrc}/>
           }
 
           
