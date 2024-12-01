@@ -32,8 +32,8 @@ const Stats: React.FC<Props> = ({genImage, upImage, score}) => {
           )}
         </div>
         <div className="info-section">
-          <div className="grade-circle" style={{borderColor: score >= 0.5 ? (score >= 0.6 ? (score >= 0.70 ? (score >= 0.80? (score >= 0.9? "red" : "orange") : "yellow") : "green") : "blue") : "grey"}}>
-            <h1>{score >= 0.5 ? (score >= 0.6 ? (score >= 0.70 ? (score >= 0.80? (score >= 0.9? "S" : "A") : "B") : "C") : "D") : "F"}</h1>
+          <div className="grade-circle" style={{borderColor: score >= 0.5 ? (score >= 0.6 ? (score >= 0.70 ? (score >= 0.90? (score >= 0.97? "red" : "orange") : "yellow") : "green") : "blue") : "grey"}}>
+            <h1>{score >= 0.5 ? (score >= 0.6 ? (score >= 0.70 ? (score >= 0.90? (score >= 0.97? "S" : "A") : "B") : "C") : "D") : "F"}</h1>
             <p>Accuracy: {(score*100).toFixed(0)}%</p>
           </div>
           <div className="additional-text">
