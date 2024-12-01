@@ -41,7 +41,7 @@ function Selector({genImage, setGenImage, setUpImage}: Props) {
 
   const handleFetchImage = async () => {
     setLoading(true)
-    const rawJson = await apiService.getImage(category === 3 ? "still" : `${category === 2 ? "body" : "face"}${category === 1 ? "real" : "anime"}`)
+    const rawJson = await apiService.getImage((category === 3 ? "still" : category === 2 ? "body" : "face") + (style === 1 ? "real" : "anime"))
     setImgSrc(rawJson.balls.original)
     setGenImage(rawJson.balls)
     setShowImage(true)

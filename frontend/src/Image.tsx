@@ -38,20 +38,23 @@ const Image: React.FC<Props> = ({genImage, base64src, setUpImage, category, styl
 
   const regenerateImage = async () => {
     setLoading(true)
-    const rawJson = await apiService.getImage(category === 3 ? "still" : `${category === 2 ? "body" : "face"}${category === 1 ? "real" : "anime"}`)
+    const rawJson = await apiService.getImage((category === 3 ? "still" : category === 2 ? "body" : "face") + (style === 1 ? "real" : "anime"))
     setImgSrc(rawJson.balls.original)
     setLoading(false)
   };
 
   return (
     <>
-      <div style={{display: 'flex', flexDirection: 'column', alignItems: 'center', marginBottom: 64}}>
+      
+      <div style={{display: 'flex', position:'relative', flexDirection: 'column', alignItems: 'center', marginBottom: 64}}>
         <h1 className="title" style={{marginTop:64}}>Generated reference image</h1>
-
-        <img src={`data:image/png;base64, ${base64src}`} style={{width: '512px'}}/>
-
+        <p>Create a black-and-white line art sketch of the image below (512x768px).</p>
+        <img onClick={() => window.open(`data:image/png;base64, ${base64src}`, '_blank')} src={`data:image/png;base64, ${base64src}`} style={{width: '512px', cursor:'pointer'}}/>
         
         <div className="upload-container">
+          <label htmlFor="imageUpload" className="file-label">
+            Upload To Score: 
+          </label>
           <input
             type="file"
             accept="image/*"

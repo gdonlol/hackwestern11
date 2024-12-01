@@ -7,6 +7,11 @@ body{
   font-family: Poppins;
 }
 
+@font-face {
+  font-family: 'Beanco';
+  src: url('./assets/Beanco.otf') format('opentype');
+}
+
 .header{
   color: #ffffff;
   background: linear-gradient(
@@ -22,12 +27,14 @@ body{
   top: 0;
   left: 0;
   width: 100vw;
-  z-index: 999;
+  z-index: 100;
 }
 
-.header > h1{
-  font-family: Charm;
-  font-size: 40px;
+.header > a{
+  font-family: Beanco;
+  font-size: 60px;
+  color: white;
+  text-decoration: none;
 }
 
 .logo-title{
@@ -132,6 +139,7 @@ body{
   display: flex;
   align-items: center;
   gap: 10px;
+  margin-top: 16px;
 }
 
 .file-input {
