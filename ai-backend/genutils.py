@@ -69,9 +69,11 @@ def import_custom_nodes() -> None:
     init_custom_nodes()
 
 
-def save_image(image, filename="images/image.png"):
-    i = 255. * image.cpu().numpy()
-    img = Image.fromarray(np.clip(i, 0, 255).astype(np.uint8))
+def save_image(image, filename="images/image.png", invert=False):
+    i = image.cpu().numpy()
+    if invert:
+        i = (1 - i) ** 2
+    img = Image.fromarray(np.clip(255 * i, 0, 255).astype(np.uint8))
     img.save(filename, compress_level=4)
 
 
@@ -137,7 +139,7 @@ class Generator:
                 vae=get_value_at_index(self.vae_loader, 0),
             )
 
-            save_image(get_value_at_index(vaedecode_8, 0)[0], "images/image.png")
+            save_image(get_value_at_index(vaedecode_8, 0)[0], "images/original.png")
 
             lineartpreprocessor_13 = self.lineart_prep.execute(
                 coarse="disable",
@@ -145,12 +147,13 @@ class Generator:
                 image=get_value_at_index(vaedecode_8, 0),
             )
 
-            save_image(get_value_at_index(lineartpreprocessor_13, 0)[0], "images/lineart.png")
+            save_image(get_value_at_index(lineartpreprocessor_13, 0)[0], "images/lineart.png", True)
 
 
     def set_ckpt(self, ckpt_name="CounterfeitV30_v30.safetensors"):
         with torch.inference_mode():
             if self.ckpt_name != ckpt_name:
+                print(f"Switching from {self.ckpt_name} to {ckpt_name}...")
                 checkpointloadersimple = NODE_CLASS_MAPPINGS["CheckpointLoaderSimple"]()
                 self.ckpt_loader = checkpointloadersimple.load_checkpoint(ckpt_name=ckpt_name)
                 self.ckpt_name = ckpt_name
