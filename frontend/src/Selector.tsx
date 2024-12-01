@@ -8,9 +8,10 @@ type Props = {
   genImage: any;
   setGenImage: any;
   setUpImage: any;
+  setScore: any;
 }
 
-function Selector({genImage, setGenImage, setUpImage}: Props) {
+function Selector({genImage, setGenImage, setUpImage, setScore}: Props) {
   const [category, setCategory] = useState(0)
   const [style, setStyle] = useState(0)
   const [showStyle, setShowStyle] = useState(false)
@@ -69,11 +70,11 @@ function Selector({genImage, setGenImage, setUpImage}: Props) {
           </div>
           
           {showGen && !showImage &&
-            <button style={{marginTop:100, marginBottom:100}} className="generate-btn" onClick={() => handleFetchImage()}>{!loading ? "Generate" : "..."}</button>
+            <button style={{marginTop:100, marginBottom:100, cursor: loading ? 'wait':'pointer'}} className="generate-btn" onClick={() => handleFetchImage()}>{!loading ? "Generate" : "Loading..."}</button>
           }
 
           {showImage &&
-            <Image genImage={genImage} base64src={imgSrc} setUpImage={setUpImage} category={category} style={style} setImgSrc={setImgSrc}/>
+            <Image setScore={setScore} genImage={genImage} setGenImage={setGenImage} base64src={imgSrc} setUpImage={setUpImage} category={category} style={style} setImgSrc={setImgSrc}/>
           }
 
           

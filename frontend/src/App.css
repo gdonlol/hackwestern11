@@ -128,11 +128,11 @@ body{
 }
 
 .image-container {
-  width: 30%;
-  aspect-ratio: 1/1;
-  background-color: red;
-  margin-bottom: 20px;
-  border-radius: 10px;
+  position: relative;
+  display: inline-block;
+  width: 512px;
+  height: 768px;
+  margin-bottom: 16px;
 }
 
 .upload-container {
@@ -183,7 +183,6 @@ body{
 /* Left Section: Stacked Squares */
 .art-section {
   display: flex;
-  flex-direction: column;
   gap: 20px;
 }
 
@@ -198,7 +197,6 @@ body{
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  height: 320px; /* Matches the combined height of the stacked squares */
   flex: 1;
   align-items: center;
 }
@@ -210,7 +208,7 @@ body{
   align-items: center;
   width: 150px;
   height: 150px;
-  background-color: #4caf50;
+  border: 12px solid #4c74af;
   border-radius: 50%;
   color: white;
   font-size: 24px;
@@ -219,13 +217,33 @@ body{
 
 .grade-circle h1 {
   margin: 0;
-  font-size: 48px;
+  font-size: 100px;
+  position: relative;
+  bottom: -10px;
+  transform: rotate(5deg);
+  text-shadow: 2px 2px 2px rgba(0, 0, 0, 1);
 }
 
 .grade-circle p {
   margin: 0;
-  font-size: 16px;
+  font-size: 18px;
+  position: relative;
+  right: -42px;
+  bottom: 30px;
+  text-shadow: 2px 2px 2px rgba(0, 0, 0, 1);
+  animation: scaleUpDown 2s ease-in-out infinite;
+
 }
+
+@keyframes scaleUpDown {
+  0%, 100% {
+    transform: scale(1) rotate(-11deg);
+  }
+  50% {
+    transform: scale(1.2) rotate(-11deg);
+  }
+}
+
 
 .additional-text {
   text-align: center;
@@ -257,20 +275,23 @@ body{
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: 104px;
+  flex-direction: column;
+  gap: 16px;
 }
 
-.action-buttons button {
+.action-buttons-btn {
   padding: 10px 20px;
   font-size: 14px;
   border: none;
   border-radius: 5px;
   background-color: #007bff;
   color: white;
-  cursor: pointer
+  cursor: pointer;
+  width: 100%;
+  text-decoration: none;
 }
 
-.action-buttons button:hover {
+.action-buttons-btn:hover {
   background-color: #0056b3;
 }
 
@@ -406,3 +427,21 @@ body{
 .auth-link:hover {
   text-decoration: underline;
 }
+
+
+.grid {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(3, 1fr);
+  pointer-events: none;
+}
+
+.grid-item {
+  border: 1px solid rgba(0, 0, 0, 0.5);
+}
+

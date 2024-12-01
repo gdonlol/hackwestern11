@@ -7,7 +7,7 @@ type Props = {}
 function Header({}: Props) {
   return (
     <div className="header">
-        <Link to="/">Sketchu</Link>
+        <Link to="/">Sketchr</Link>
     </div>
   )
 }

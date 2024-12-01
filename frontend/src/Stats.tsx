@@ -1,15 +1,17 @@
 import React from "react";
 import { useState } from "react";
 import "./App.css";
+import { Link } from "react-router-dom";
 
 
 type Props = {
   genImage: any; 
   upImage: string;  
+  score: number;
 };
 
 
-const Stats: React.FC<Props> = ({genImage, upImage}) => {
+const Stats: React.FC<Props> = ({genImage, upImage, score}) => {
   return (
     <div className="statistics-container">
       <div className="art-and-info">
@@ -26,26 +28,18 @@ const Stats: React.FC<Props> = ({genImage, upImage}) => {
           )}
         </div>
         <div className="info-section">
-          <div className="grade-circle">
-            <h1>A+</h1>
-            <p>accuracy: 98%</p>
+          <div className="grade-circle" style={{borderColor: score >= 0.5 ? (score >= 0.6 ? (score >= 0.70 ? (score >= 0.80? (score >= 0.9? "red" : "orange") : "yellow") : "green") : "blue") : "grey"}}>
+            <h1>{score >= 0.5 ? (score >= 0.6 ? (score >= 0.70 ? (score >= 0.80? (score >= 0.9? "S" : "A") : "B") : "C") : "D") : "F"}</h1>
+            <p>Accuracy: {(score*100).toFixed(0)}%</p>
           </div>
           <div className="additional-text">
-            <p>Placeholder text for analysis details</p>
-            <p>Additional space for future content.</p>
-          </div>
-          <div className="xp-bar-container">
-            <div className="xp-bar">
-              <div className="xp-progress"></div>
+            <p>Daily Streak: 0</p>
+            <p>Highscore: 0</p>
+            <div className="action-buttons">
+              <Link to='/' className="action-buttons-btn">Exit</Link>
             </div>
           </div>
         </div>
-      </div>
-
-      <div className="action-buttons">
-        <button className="btn">Retry Picture</button>
-        <button className="btn">Retry Category</button>
-        <button className="btn">Next</button>
       </div>
     </div>
   );
