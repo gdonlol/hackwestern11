@@ -1,7 +1,6 @@
 import axios from 'axios'
 const baseUrl = "http://localhost:3001/api/"
 
-
 const getImage = async (style: string) => {
     console.log('sending get req')
     const response = await axios.get(baseUrl + 'generate/' + style)

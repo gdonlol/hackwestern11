@@ -7,6 +7,9 @@ import Image from './Image.tsx'
 import "./App.css"
 import { Routes, Route } from "react-router-dom";
 import Stats from "./Stats.tsx";
+import LoginPage from './Login.tsx'
+import SignupPage from './Signup.tsx'
+
 
 function App() {
   const [genImage, setGenImage] = useState(null)
@@ -19,6 +22,8 @@ function App() {
       <Routes>
         <Route path="/" element={<Selector setScore={setScore} genImage={genImage} setGenImage={setGenImage} setUpImage={setUpImage} />} />
         <Route path="/results" element={<Stats score={score} upImage={upImage} genImage={genImage}/>}/>
+        <Route path="/login" element={<LoginPage />}/>
+        <Route path="/signup" element={<SignupPage />}/>
       </Routes>
     </>
   )

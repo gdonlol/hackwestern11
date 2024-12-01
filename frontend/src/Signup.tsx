@@ -2,13 +2,13 @@ import React, { useState } from 'react';
 import "./App.css"
 import userService from './services/userService';
 
-const LoginPage = () => {
+const SignupPage = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
 
   const handleSubmit = async (e: any) => {
     e.preventDefault();
-    const jwt = await userService.login(username, password)
+    const jwt = await userService.signup(username, password)
     localStorage.setItem('token', jwt.token);
     location.reload();
   }
@@ -16,7 +16,7 @@ const LoginPage = () => {
   return (
     <div className="login-container">
     <div className="login-card">
-      <h2 className="login-title">Log In</h2>
+      <h2 className="login-title">Sign Up</h2>
       <form onSubmit={handleSubmit}>
         <input 
           type="text" 
@@ -38,14 +38,14 @@ const LoginPage = () => {
           type="submit" 
           className="login-btn-main"
         >
-          Log In
+          Sign Up
         </button>
       </form>
       <a 
         href="#" 
         className="signup-link"
       >
-        Don't have an account?
+        Already have an account?
       </a>
     </div>
   </div>
@@ -54,4 +54,4 @@ const LoginPage = () => {
   );
 };
 
-export default LoginPage;
+export default SignupPage;

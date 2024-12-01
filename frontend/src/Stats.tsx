@@ -12,6 +12,10 @@ type Props = {
 
 
 const Stats: React.FC<Props> = ({genImage, upImage, score}) => {
+  const highscore = localStorage.getItem("highscore");
+  if (!highscore || parseInt(highscore, 10) <= score) {
+    localStorage.setItem("highscore", score.toString());
+  }
   return (
     <div className="statistics-container">
       <div className="art-and-info">
@@ -34,7 +38,7 @@ const Stats: React.FC<Props> = ({genImage, upImage, score}) => {
           </div>
           <div className="additional-text">
             <p>Daily Streak: 0</p>
-            <p>Highscore: 0</p>
+            <p>Highscore: {localStorage.getItem("highscore") || 0}</p>
             <div className="action-buttons">
               <Link to='/' className="action-buttons-btn">Exit</Link>
             </div>

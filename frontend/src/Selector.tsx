@@ -70,7 +70,7 @@ function Selector({genImage, setGenImage, setUpImage, setScore}: Props) {
           </div>
           
           {showGen && !showImage &&
-            <button style={{marginTop:100, marginBottom:100, cursor: loading ? 'wait':'pointer'}} className="generate-btn" onClick={() => handleFetchImage()}>{!loading ? "Generate" : "Loading..."}</button>
+            <button style={{marginTop:100, marginBottom:100, cursor: loading ? 'wait':'pointer'}} className="generate-btn" onClick={() => handleFetchImage()}>{!loading ? "Start" : "Loading..."}</button>
           }
 
           {showImage &&

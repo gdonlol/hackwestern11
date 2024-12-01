@@ -12,9 +12,9 @@ const userSchema = new mongoose.Schema({
         type: Number,
         default: 0
     },
-    highscore: {
+    level: {
         type: Number,
-        default: 0
+        default: 1
     },
     lastUpdated: {
         type: Date,

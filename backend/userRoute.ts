@@ -42,18 +42,11 @@ authRouter.post('/signup', async (request:any, response:any) => {
 
     const user = new User({username: username, passwordHash: passwordHash})
     await user.save()
-    const userObj = {
-        username: username,
-        id: user.id,
-        streak: 0,
-        exp: 0,
-        highscore: 0
-    }
     const token = jwt.sign(user._id.toString(), process.env.SECRET)
     console.log('POST: Log in success for ', username)
     response
         .status(200)
-        .send({ token })
+        .send({token: token})
 })
 
 const userExtractor = async (request:any, response:any, next:any) => {
