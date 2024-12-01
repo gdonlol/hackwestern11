@@ -1,6 +1,18 @@
 import express from "express";
 const axios = require('axios');
 const cors = require('cors');
+require('dotenv').config()
+const mongoose = require('mongoose')
+const userRoute = require('./userRoute') 
+
+mongoose
+    .connect(process.env.MONGO_DB_URL)
+    .then(() => {
+        console.log('Database connection succsessful.')
+    })
+    .catch(() => {
+        console.error('Database connection failed.')
+    })
 
 const app = express();
 const PORT = 3000;
@@ -26,6 +38,8 @@ app.get("/api/lineart/:typeParam", async (req, res) => {
     res.setHeader("Content-Type", "image/png")
     lineartBlob.data.pipe(res)
 });
+
+app.use("/api/users", userRoute)
 
 app.listen(PORT, () => {
     console.log(`Server is running on http://localhost:${PORT}`);
