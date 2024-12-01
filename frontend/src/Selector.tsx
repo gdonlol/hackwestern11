@@ -50,7 +50,7 @@ function Selector({setGenImage, setUpImage}: Props) {
 
   return (
     <div>
-      <div className="bottom-gradient"></div>
+      <div className="bottom-gradient" style={{pointerEvents:"none"}}></div>
       <div className="section">
         
         <h1>Choose a category</h1>
