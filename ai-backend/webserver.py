@@ -5,15 +5,31 @@ import base64
 import os
 
 STYLE = {
-        "still": {
+        "stillreal": {
             "ckpt": "liberteRedmond_v10.safetensors",
-            "prompt": "best quality, real photo, professional still-life photography, RAW image, white background, light mode)",
+            "prompt": "best quality, real photo, professional still-life photography, RAW image, white background, light mode",
             "negative": "worst quality, NSFW, porn, suggestive image, text, watermark, signature, imaginary objects, disfigured objects, warped objects",
             "sampler": "euler",
             "steps": 20,
             "cfg": 8,
             },
-        "anime": {
+        "stillanime": {
+            "ckpt": "CounterfeitV30_v30.safetensors",
+            "prompt": "best quality, real photo, professional still-life photography, RAW image, every day items",
+            "negative": "worst quality, NSFW, porn, suggestive image, girl, text, watermark, signature, imaginary objects, disfigured objects, warped objects, sci-fi",
+            "sampler": "euler",
+            "steps": 20,
+            "cfg": 8,
+            },
+        "bodyanime": {
+            "ckpt": "CounterfeitV30_v30.safetensors",
+            "prompt": "best quality, simple, girl, posing",
+            "negative": "worst quality, NSFW, porn, suggestive image, text, watermark, signature, hands, feet, sci-fi",
+            "sampler": "euler",
+            "steps": 20,
+            "cfg": 8,
+            },
+        "faceanime": {
             "ckpt": "CounterfeitV30_v30.safetensors",
             "prompt": "best quality, simple, girl, headshot",
             "negative": "worst quality, NSFW, porn, suggestive image, text, watermark, signature",
@@ -21,9 +37,17 @@ STYLE = {
             "steps": 20,
             "cfg": 8,
             },
-        "real": {
+        "bodyreal": {
             "ckpt": "majicmixRealistic_v7.safetensors",
             "prompt": "best quality, real photo, professional photography, RAW image, model posing, adult woman",
+            "negative": "worst quality, NSFW, porn, suggestive image, text, watermark, signature, hands, feet",
+            "sampler": "euler",
+            "steps": 20,
+            "cfg": 8,
+            },
+        "facereal": {
+            "ckpt": "majicmixRealistic_v7.safetensors",
+            "prompt": "best quality, real photo, professional photography, RAW image, adult woman, headshot photo",
             "negative": "worst quality, NSFW, porn, suggestive image, text, watermark, signature, hands, feet",
             "sampler": "euler",
             "steps": 20,
@@ -41,6 +65,7 @@ def send_image():
     global gen
     style = request.args.get("style", "anime")
     try:
+        print(f"Generating {style}...")
         gen(**STYLE[style])
         with open('images/original.png', 'rb') as img1, open('images/lineart.png', 'rb') as img2:
             original_base64 = base64.b64encode(img1.read()).decode('utf-8')
@@ -87,12 +112,13 @@ def score_images():
     with open("compare/drawing.png", 'wb') as f:
         f.write(drawing_data)
 
-    score = scorer()
+    score, loss = scorer()
     with open('compare/difmap.png', 'rb') as img:
         difmap_base64 = base64.b64encode(img.read()).decode('utf-8')
 
     return jsonify({
         'score': score,
+        'loss': loss,
         'difmap': difmap_base64
     })
     """

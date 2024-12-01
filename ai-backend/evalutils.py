@@ -85,7 +85,7 @@ class Scorer:
         dif_img = Image.fromarray((dif_map * 255).cpu().numpy().astype("u1"))
         dif_img.save(f"{self.compare_dir}/difmap.png", compress_level=self.compress_level)
         score = pt.exp(-loss / 10)
-        return score.item()
+        return score.item(), loss.item()
 
 
 if __name__ == "__main__":
