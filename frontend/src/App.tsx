@@ -9,14 +9,17 @@ import { Routes, Route } from "react-router-dom";
 import Stats from "./Stats.tsx";
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [genImage, setGenImage] = useState("")
+  const [upImage, setUpImage] = useState("")
+
+
 
   return (
     <>
       <Header />
       <Routes>
-        <Route path="/" element={<Selector />} />
-        <Route path="/results" element={<Stats />} />
+        <Route path="/" element={<Selector setGenImage={setGenImage} setUpImage={setUpImage} />} />
+        <Route path="/results" element={<Stats upImage={upImage} genImage={genImage}/>}/>
       </Routes>
     </>
   )

@@ -3,9 +3,10 @@ import { useState } from "react";
 
 type Props = {
   src: any;
+  setUpImage: any;
 };
 
-const Image: React.FC<Props> = ({src}: Props) => {
+const Image: React.FC<Props> = ({src, setUpImage}: Props) => {
   const [uploadedImage, setUploadedImage] = useState<string | null>(null);
 
   const handleImageUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -17,6 +18,7 @@ const Image: React.FC<Props> = ({src}: Props) => {
         setUploadedImage(reader.result as string);
       };
       reader.readAsDataURL(file);
+      setUpImage(file);
     }
   };
 

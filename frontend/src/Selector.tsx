@@ -3,11 +3,13 @@ import { useState } from "react";
 import "./App.css"
 import Image from "./Image";
 import apiService from "./services/apiService";
-import Background from "./Background";
 
-type Props = {}
+type Props = {
+  setGenImage: any;
+  setUpImage: any;
+}
 
-function Selector({}: Props) {
+function Selector({setGenImage, setUpImage}: Props) {
   const [category, setCategory] = useState(0)
   const [style, setStyle] = useState(0)
   const [showStyle, setShowStyle] = useState(false)
@@ -42,6 +44,7 @@ function Selector({}: Props) {
       await apiService.getImage(category === 1 ? 'still': category === 2 ? 'anime':'real'):
       await apiService.getLineart(category === 1 ? 'still': category === 2 ? 'anime':'real')
     setImcSrc(imgsrc)
+    setGenImage(imgsrc)
     setShowImage(true)
   }
 
@@ -71,7 +74,7 @@ function Selector({}: Props) {
           }
 
           {showImage &&
-            <Image src={imgSrc}/>
+            <Image src={imgSrc} setUpImage={setUpImage}/>
           }
           
         </div>

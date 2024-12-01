@@ -2,18 +2,33 @@ import React from "react";
 import { useState } from "react";
 import "./App.css";
 
-type Props = {}
+
+type Props = {
+  genImage: string; 
+  upImage: string;  
+};
 
 
-function Stats({}: Props) {
+const Stats: React.FC<Props> = ({genImage, upImage }) => {
   return (
     <div className="statistics-container">
       <div className="art-and-info">
         <div className="art-section">
-          <div className="art-box"></div>
-          <div className="art-box"></div>
+          <div className="image-container">
+            {upImage ? (
+              <img src={upImage} alt="Uploaded" className="image" />
+            ) : (
+              <p>No image uploaded</p>
+            )}
+          </div>
+          <div className="image-container">
+            {genImage ? (
+              <img src={genImage} alt="Generated" className="image" />
+            ) : (
+              <p>No generated image</p>
+            )}
+          </div>
         </div>
-
         <div className="info-section">
           <div className="grade-circle">
             <h1>A+</h1>
@@ -32,9 +47,9 @@ function Stats({}: Props) {
       </div>
 
       <div className="action-buttons">
-        <button>Retry Picture</button>
-        <button>Retry Category</button>
-        <button>Next</button>
+        <button className="btn">Retry Picture</button>
+        <button className="btn">Retry Category</button>
+        <button className="btn">Next</button>
       </div>
     </div>
   );
