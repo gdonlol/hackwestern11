@@ -12,8 +12,8 @@ function Header({}: Props) {
   return (
   
     <div className="header">
-        <Link to="/" className='logo-title'>Sketchu</Link>
-        {user && <>x
+        <Link to="/" className='logo-title'><img src={'./long_logo.png'} style={{width: '300px'}}/></Link>
+        {user && <>
         <Link to="/login" className='login-btn'>Login</Link>
         <Link to="/signup" className='signup-btn'>Signup</Link></>}
     </div>
