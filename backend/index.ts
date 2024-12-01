@@ -28,6 +28,14 @@ app.get("/api/generate/:styleParam", async (req, res) => {
     res.status(200).json({balls: balls.data})
 })
 
+app.post("/api/score", async (req, res) => {
+    const url = `http://129.100.196.65:6969/score`
+    console.log('sending score req')
+    const balls = await axios.post(url, req.body)
+    console.log('done')
+    res.status(200).json({balls: balls.data})
+})
+
 app.use("/api/users", userRoute)
 
 app.listen(PORT, () => {

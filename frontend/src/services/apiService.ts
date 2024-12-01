@@ -1,12 +1,17 @@
 import axios from 'axios'
-const baseUrl = "http://localhost:3001/api/generate/"
+const baseUrl = "http://localhost:3001/api/"
+
 
 const getImage = async (style: string) => {
     console.log('sending get req')
-    const response = await axios.get(baseUrl + style)
+    const response = await axios.get(baseUrl + 'generate/' + style)
     console.log('done')
     return response.data
 }
+const getScore = async (imgJsons: any) => {
+    const response = await axios.post(baseUrl + 'score', imgJsons)
+    return response.data
+}
 
-const apiService = {getImage}
+const apiService = {getImage, getScore}
 export default apiService
